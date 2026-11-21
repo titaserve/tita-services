@@ -4,7 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tita Services | Home-Cooked African Food in Indianapolis</title>
-<meta name="description" content="Tita Services: home-cooked African meals, snacks, party trays and more in Indianapolis. Order by text for pickup.">
+<meta name="description" content="Home-cooked Cameroonian &amp; African food in Indianapolis: ndole, eru, koki, suya, jollof and more. Order online for pickup.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tita Services">
+<meta property="og:title" content="Tita Services | Home-Cooked African Food in Indianapolis">
+<meta property="og:description" content="Ndole, eru, koki, suya, jollof and more, cooked from scratch. Order online for pickup.">
+<meta property="og:url" content="https://titaserve.github.io/tita-services/">
+<meta property="og:image" content="https://titaserve.github.io/tita-services/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#163d2e">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -149,6 +159,24 @@
   .done .check{width:64px;height:64px;border-radius:50%;background:var(--green);color:var(--gold);font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
   .done h3{font-family:"Playfair Display",serif;font-size:26px}
   .done p{color:var(--muted);margin-top:6px}
+
+  /* ---------- v2 additions ---------- */
+  .field select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+  .field select:focus{outline:none;border-color:var(--green)}
+  .item.sold .img{filter:grayscale(1);opacity:.55}
+  .item.sold h3{color:var(--muted)}
+  .badge.sold{background:#f6dcd3;color:#8e3417}
+  .oline .meta{display:block;font-size:13px;color:var(--muted);font-weight:500}
+  .oline.sold span{color:var(--muted)}
+  .oline.sold .stepper{opacity:.35;pointer-events:none}
+  #sumList .lp{color:var(--muted);font-weight:500;margin-left:6px}
+  .total{display:flex;justify-content:space-between;border-top:2px solid var(--line);padding-top:10px;margin:-6px 0 16px;font-weight:700;font-size:17px}
+  .total small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+  .cartbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:20;background:var(--green);color:var(--cream);border-radius:999px;
+    padding:12px 12px 12px 22px;display:none;align-items:center;justify-content:space-between;gap:10px;
+    box-shadow:0 12px 30px -8px rgba(0,0,0,.45);font-weight:600;font-size:15px}
+  .cartbar a{background:var(--gold);color:var(--ink);text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:700;white-space:nowrap}
+  @media(max-width:860px){.cartbar.show{display:flex}}
 </style>
 </head>
 <body>
@@ -188,12 +216,13 @@
     <h2>Menu</h2>
     <p class="sub">Cooked fresh to order. Please order at least a day ahead.</p>
 
-    <div class="tabs" role="tablist">
+    <div class="tabs" role="tablist" id="menuTabs">
       <button class="tab active" data-panel="mains">Chicken, Meat &amp; Fish</button>
       <button class="tab" data-panel="soups">Soups &amp; Stews</button>
       <button class="tab" data-panel="sides">Rice &amp; Sides</button>
     </div>
 
+    <div id="menuPanels">
     <div class="panel grid show" id="mains">
       <div class="item"><div class="img">Photo</div><div class="body">
         <h3>Baked Chicken</h3><p>Seasoned chicken, oven-baked until tender.</p>
@@ -272,6 +301,7 @@
         <div class="row"><span class="price">Price on confirmation</span></div></div></div>
     </div>
 
+    </div>
     <p class="note">Prices depend on size and portion. Your total is confirmed when we reach out about your order.</p>
   </div>
 </section>
@@ -289,7 +319,8 @@
         <form id="orderForm" novalidate>
           <div class="field"><label for="oName">Name</label><input id="oName" autocomplete="name" maxlength="80" required></div>
           <div class="field"><label for="oPhone">Phone (for your confirmation text)</label><input id="oPhone" type="tel" autocomplete="tel" maxlength="30" required></div>
-          <div class="field"><label for="oDate">Pickup day</label><input id="oDate" type="date" required></div>
+          <div class="field"><label for="oDate">Pickup day</label><select id="oDate" required></select></div>
+          <div class="field"><label for="oEmail">Email (optional, for your receipt)</label><input id="oEmail" type="email" autocomplete="email" maxlength="100"></div>
           <div class="field"><label for="oNotes">Notes (spice level, allergies, sizes)</label><textarea id="oNotes" rows="3" maxlength="500"></textarea></div>
           <div class="hp" aria-hidden="true"><label>Website<input id="oWebsite" tabindex="-1" autocomplete="off"></label></div>
           <button class="btn btn-clay" id="placeBtn" type="submit">Place Order</button>
@@ -371,119 +402,206 @@
   Site by [YOUR BUSINESS NAME]
 </footer>
 
-<script>
-  document.querySelectorAll('.tab').forEach(function(t){
-    t.addEventListener('click',function(){
-      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
-      document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show')});
-      t.classList.add('active');
-      document.getElementById(t.dataset.panel).classList.add('show');
-    });
-  });
-</script>
+<div class="cartbar" id="cartBar" aria-live="polite"><span id="cartText"></span><a href="#summaryCard" id="cartGo">View order</a></div>
 
 <script>
-/* ===== Online ordering =====
-   Paste the Google Apps Script web app URL below. Leave it empty for demo mode
-   (the form works but nothing is sent). */
+/* ===== Tita Services: menu + online ordering =====
+   The menu, prices, sold-out dishes and pickup days come from the
+   "Tita Services Orders" Google Sheet. The menu written in this page is
+   only a backup, shown if the sheet can't be reached. */
 const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzqwCxFwe18w_XhLdk0j0wOijnls1QgnwH03Xl5NcwoCXs2pSIXH_ZOkNdw7nekNEo9VA/exec';
 
-(function(){
+(function () {
+  const $ = function (id) { return document.getElementById(id); };
+  const tabsBox = $('menuTabs'), panelsBox = $('menuPanels'), itemsBox = $('orderItems');
+  const sumList = $('sumList'), form = $('orderForm'), btn = $('placeBtn'), msg = $('oMsg'), dateSel = $('oDate');
   const qty = {};
-  const itemsBox = document.getElementById('orderItems');
-  const sumList = document.getElementById('sumList');
-  const form = document.getElementById('orderForm');
-  const btn = document.getElementById('placeBtn');
-  const msg = document.getElementById('oMsg');
-  const dateIn = document.getElementById('oDate');
-  let status = { open: true, fullDates: [] };
+  let status = { open: true, fullDates: [], cookingDays: [], blockedDates: [], daysAhead: 21 };
 
-  // Build the order list from the menu tabs, so there's one menu to update.
-  document.querySelectorAll('.tab').forEach(function(tab){
-    const panel = document.getElementById(tab.dataset.panel);
-    const h = document.createElement('div'); h.className = 'ocat'; h.textContent = tab.textContent;
-    itemsBox.appendChild(h);
-    panel.querySelectorAll('.item h3').forEach(function(t){
-      const name = t.textContent.trim(); qty[name] = 0;
-      const line = document.createElement('div'); line.className = 'oline';
-      line.innerHTML = '<span></span><div class="stepper"><button type="button" aria-label="Remove one">−</button><output>0</output><button type="button" aria-label="Add one">+</button></div>';
-      line.querySelector('span').textContent = name;
-      const [minus, plus] = line.querySelectorAll('button'); const out = line.querySelector('output');
-      function set(n){ qty[name] = Math.max(0, Math.min(50, n)); out.textContent = qty[name]; line.classList.toggle('on', qty[name] > 0); render(); }
-      minus.onclick = function(){ set(qty[name] - 1); };
-      plus.onclick = function(){ set(qty[name] + 1); };
-      itemsBox.appendChild(line);
+  // Backup menu read from the page itself.
+  let MENU = [];
+  tabsBox.querySelectorAll('.tab').forEach(function (tab) {
+    const panel = $(tab.dataset.panel);
+    panel.querySelectorAll('.item').forEach(function (it) {
+      const b = it.querySelector('.badge');
+      MENU.push({ category: tab.textContent.trim(), name: it.querySelector('h3').textContent.trim(),
+        desc: it.querySelector('p').textContent.trim(), price: null, soldOut: false, badge: b ? b.textContent.trim() : '' });
     });
   });
 
-  function chosen(){ return Object.keys(qty).filter(function(k){ return qty[k] > 0; }).map(function(k){ return { name: k, qty: qty[k] }; }); }
-  function render(){
-    const c = chosen(); sumList.innerHTML = '';
-    if (!c.length) { sumList.innerHTML = '<li class="empty">No items yet</li>'; return; }
-    c.forEach(function(it){ const li = document.createElement('li'); const a = document.createElement('span'); a.textContent = it.name; const b = document.createElement('b'); b.textContent = '× ' + it.qty; li.append(a, b); sumList.appendChild(li); });
+  const money = function (n) { return '$' + (Math.round(n * 100) / 100).toFixed(2).replace(/\.00$/, ''); };
+  const el = function (tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const categories = function () { const c = []; MENU.forEach(function (m) { if (c.indexOf(m.category) === -1) c.push(m.category); }); return c; };
+  const byName = function (n) { return MENU.find(function (m) { return m.name === n; }); };
+
+  /* ---------- menu tabs ---------- */
+  function renderMenu() {
+    const active = (tabsBox.querySelector('.tab.active') || {}).textContent;
+    tabsBox.innerHTML = ''; panelsBox.innerHTML = '';
+    categories().forEach(function (cat, i) {
+      const isActive = active ? cat === active : i === 0;
+      const t = el('button', 'tab' + (isActive ? ' active' : ''), cat); t.type = 'button'; t.dataset.panel = 'cat' + i;
+      tabsBox.appendChild(t);
+      const panel = el('div', 'panel grid' + (isActive ? ' show' : '')); panel.id = 'cat' + i;
+      MENU.filter(function (m) { return m.category === cat; }).forEach(function (m) {
+        const card = el('div', 'item' + (m.soldOut ? ' sold' : ''));
+        card.appendChild(el('div', 'img', 'Photo'));
+        const body = el('div', 'body');
+        body.appendChild(el('h3', null, m.name));
+        body.appendChild(el('p', null, m.desc));
+        const row = el('div', 'row');
+        row.appendChild(el('span', 'price', m.price != null ? money(m.price) : 'Price on confirmation'));
+        if (m.soldOut) row.appendChild(el('span', 'badge sold', 'Sold out'));
+        else if (m.badge) row.appendChild(el('span', 'badge', m.badge));
+        body.appendChild(row); card.appendChild(body); panel.appendChild(card);
+      });
+      panelsBox.appendChild(panel);
+    });
+    if (!tabsBox.querySelector('.tab.active') && tabsBox.firstChild) { tabsBox.firstChild.classList.add('active'); panelsBox.firstChild.classList.add('show'); }
   }
-  function show(text, kind){ msg.className = 'omsg ' + kind; msg.textContent = text; }
-  function clearMsg(){ msg.className = 'omsg'; msg.textContent = ''; }
-
-  // Earliest pickup: tomorrow.
-  const t = new Date(); t.setDate(t.getDate() + 1);
-  const pad = function(n){ return String(n).padStart(2, '0'); };
-  dateIn.min = t.getFullYear() + '-' + pad(t.getMonth() + 1) + '-' + pad(t.getDate());
-
-  dateIn.addEventListener('change', function(){
-    if (status.fullDates.indexOf(dateIn.value) !== -1) show('That day is fully booked. Please choose another day.', 'warn'); else clearMsg();
+  tabsBox.addEventListener('click', function (e) {
+    const t = e.target.closest('.tab'); if (!t) return;
+    tabsBox.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('active'); });
+    panelsBox.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('show'); });
+    t.classList.add('active'); $(t.dataset.panel).classList.add('show');
   });
 
-  function setClosed(text){
-    document.getElementById('closedBanner').textContent = text || "We're not taking orders right now. Please check back soon!";
-    document.getElementById('closedBanner').classList.add('show');
-    document.getElementById('orderWrap').classList.add('order-closed');
-    btn.disabled = true;
+  /* ---------- order list ---------- */
+  function renderOrderList() {
+    itemsBox.innerHTML = '';
+    categories().forEach(function (cat) {
+      itemsBox.appendChild(el('div', 'ocat', cat));
+      MENU.filter(function (m) { return m.category === cat; }).forEach(function (m) {
+        if (m.soldOut) qty[m.name] = 0;
+        if (qty[m.name] == null) qty[m.name] = 0;
+        const line = el('div', 'oline' + (m.soldOut ? ' sold' : '') + (qty[m.name] ? ' on' : ''));
+        const label = el('span', null, m.name);
+        label.appendChild(el('span', 'meta', m.soldOut ? 'Sold out' : (m.price != null ? money(m.price) : 'Price on confirmation')));
+        const step = el('div', 'stepper');
+        const minus = el('button', null, '−'); minus.type = 'button'; minus.setAttribute('aria-label', 'Remove one ' + m.name);
+        const out = el('output', null, String(qty[m.name]));
+        const plus = el('button', null, '+'); plus.type = 'button'; plus.setAttribute('aria-label', 'Add one ' + m.name);
+        const set = function (n) { qty[m.name] = Math.max(0, Math.min(50, n)); out.textContent = qty[m.name]; line.classList.toggle('on', qty[m.name] > 0); renderSummary(); };
+        minus.onclick = function () { set(qty[m.name] - 1); };
+        plus.onclick = function () { set(qty[m.name] + 1); };
+        step.append(minus, out, plus); line.append(label, step); itemsBox.appendChild(line);
+      });
+    });
+    Object.keys(qty).forEach(function (n) { if (!byName(n)) delete qty[n]; });
+    renderSummary();
   }
 
-  // Ask the backend whether orders are open.
-  if (ORDER_ENDPOINT) {
-    fetch(ORDER_ENDPOINT).then(function(r){ return r.json(); }).then(function(s){
-      status = { open: !!s.open, fullDates: s.fullDates || [] };
+  function chosen() {
+    return Object.keys(qty).filter(function (k) { return qty[k] > 0; }).map(function (k) { return { name: k, qty: qty[k] }; });
+  }
+
+  /* ---------- summary + sticky bar ---------- */
+  function renderSummary() {
+    const c = chosen(); sumList.innerHTML = '';
+    const old = document.querySelector('.total'); if (old) old.remove();
+    let total = 0, unpriced = false, count = 0;
+    if (!c.length) sumList.innerHTML = '<li class="empty">No items yet</li>';
+    c.forEach(function (it) {
+      const m = byName(it.name) || {}; count += it.qty;
+      const li = el('li'); const a = el('span', null, it.qty + ' × ' + it.name); const b = el('b');
+      if (m.price != null) { total += m.price * it.qty; b.textContent = money(m.price * it.qty); } else { unpriced = true; b.appendChild(el('span', 'lp', 'TBC')); }
+      li.append(a, b); sumList.appendChild(li);
+    });
+    if (c.length && (total || unpriced)) {
+      const t = el('div', 'total');
+      const left = el('span', null, 'Estimated total');
+      if (unpriced) left.appendChild(el('small', null, total ? '+ items priced on confirmation' : 'Priced when we confirm'));
+      t.append(left, el('span', null, total ? money(total) : '—'));
+      sumList.after(t);
+    }
+    $('cartText').textContent = count + (count === 1 ? ' item' : ' items') + (total ? ' · ' + money(total) + (unpriced ? '+' : '') : '');
+    updateBar();
+  }
+  let summaryVisible = false;
+  function updateBar() { $('cartBar').classList.toggle('show', chosen().length > 0 && !summaryVisible && !$('orderWrap').classList.contains('order-closed')); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) { summaryVisible = en[0].isIntersecting; updateBar(); }, { threshold: 0.25 }).observe($('summaryCard'));
+  }
+  $('cartGo').addEventListener('click', function (e) { e.preventDefault(); $('summaryCard').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+
+  /* ---------- pickup days ---------- */
+  const pad = function (n) { return String(n).padStart(2, '0'); };
+  const ymd = function (d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+  function buildDates() {
+    const keep = dateSel.value; dateSel.innerHTML = '';
+    const first = el('option', null, 'Choose a pickup day'); first.value = ''; dateSel.appendChild(first);
+    let any = false;
+    for (let i = 1; i <= status.daysAhead; i++) {
+      const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + i);
+      const key = ymd(d);
+      if (status.cookingDays.length && status.cookingDays.indexOf(d.getDay()) === -1) continue;
+      if (status.blockedDates.indexOf(key) !== -1) continue;
+      const full = status.fullDates.indexOf(key) !== -1;
+      const o = el('option', null, d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }) + (full ? ' (fully booked)' : ''));
+      o.value = key; o.disabled = full; dateSel.appendChild(o);
+      if (!full) any = true;
+    }
+    if (!any) { first.textContent = 'No pickup days available right now'; }
+    if (keep && [].some.call(dateSel.options, function (o) { return o.value === keep && !o.disabled; })) dateSel.value = keep;
+  }
+
+  /* ---------- messages / closed state ---------- */
+  function show(text, kind) { msg.className = 'omsg ' + kind; msg.textContent = text; }
+  function clearMsg() { msg.className = 'omsg'; msg.textContent = ''; }
+  function setClosed(text) {
+    $('closedBanner').textContent = text || "We're not taking orders right now. Please check back soon!";
+    $('closedBanner').classList.add('show'); $('orderWrap').classList.add('order-closed'); btn.disabled = true; updateBar();
+  }
+
+  /* ---------- load from the sheet ---------- */
+  renderOrderList(); buildDates();
+  function load() {
+    if (!ORDER_ENDPOINT) return Promise.resolve();
+    return fetch(ORDER_ENDPOINT).then(function (r) { return r.json(); }).then(function (s) {
+      status = { open: !!s.open, fullDates: s.fullDates || [], cookingDays: s.cookingDays || [], blockedDates: s.blockedDates || [], daysAhead: s.daysAhead || 21 };
+      if (Array.isArray(s.menu) && s.menu.length) { MENU = s.menu; renderMenu(); renderOrderList(); }
+      buildDates();
       if (!status.open) setClosed(s.message);
-    }).catch(function(){});
+    }).catch(function () {});
   }
+  load();
 
-  form.addEventListener('submit', function(e){
+  /* ---------- submit ---------- */
+  form.addEventListener('submit', function (e) {
     e.preventDefault(); clearMsg();
     const order = {
-      name: document.getElementById('oName').value.trim(),
-      phone: document.getElementById('oPhone').value.trim(),
-      pickupDate: dateIn.value,
-      notes: document.getElementById('oNotes').value.trim(),
-      website: document.getElementById('oWebsite').value,
-      items: chosen()
+      name: $('oName').value.trim(), phone: $('oPhone').value.trim(), email: $('oEmail').value.trim(),
+      pickupDate: dateSel.value, notes: $('oNotes').value.trim(), website: $('oWebsite').value, items: chosen()
     };
     if (!order.items.length) return show('Please add at least one item.', 'err');
     if (!order.name || !order.phone) return show('Please enter your name and phone number.', 'err');
     if (!order.pickupDate) return show('Please choose a pickup day.', 'err');
-    if (order.pickupDate < dateIn.min) return show('Pickup needs to be tomorrow or later.', 'err');
-    if (status.fullDates.indexOf(order.pickupDate) !== -1) return show('That day is fully booked. Please choose another day.', 'warn');
+    if (order.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email)) return show('That email address does not look right.', 'err');
 
     btn.disabled = true; btn.textContent = 'Sending…';
-    const done = function(id){
-      document.getElementById('summaryCard').innerHTML =
-        '<div class="done"><div class="check">✓</div><h3>Order received!</h3><p>Order <b></b>. We\'ll text you soon to confirm your total and pickup time.</p></div>';
-      document.querySelector('.done b').textContent = id;
-      document.getElementById('summaryCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const done = function (res) {
+      const card = $('summaryCard'); card.innerHTML = '';
+      const box = el('div', 'done'); box.appendChild(el('div', 'check', '✓')); box.appendChild(el('h3', null, 'Order received!'));
+      const p = el('p'); p.append('Order '); p.appendChild(el('b', null, res.orderId)); p.append('. We’ll text you soon to confirm your total and pickup time.');
+      box.appendChild(p);
+      if (res.total) box.appendChild(el('p', null, 'Estimated total: ' + res.total));
+      if (order.email) box.appendChild(el('p', null, 'A receipt is on its way to ' + order.email + '.'));
+      card.appendChild(box); Object.keys(qty).forEach(function (k) { qty[k] = 0; }); $('cartBar').classList.remove('show');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
-    if (!ORDER_ENDPOINT) { setTimeout(function(){ done('DEMO (not sent)'); }, 600); return; }
+    if (!ORDER_ENDPOINT) { setTimeout(function () { done({ orderId: 'DEMO (not sent)' }); }, 500); return; }
 
     fetch(ORDER_ENDPOINT, { method: 'POST', body: JSON.stringify(order) })
-      .then(function(r){ return r.json(); })
-      .then(function(res){
-        if (res.ok) return done(res.orderId);
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.ok) return done(res);
+        btn.disabled = false; btn.textContent = 'Place Order';
         if (res.closed) setClosed(res.error);
-        if (res.full) status.fullDates.push(order.pickupDate);
-        show(res.error || 'Something went wrong. Please try again.', res.full ? 'warn' : 'err');
-        btn.disabled = !!res.closed; btn.textContent = 'Place Order';
+        if (res.full || res.badDate) { if (res.full) status.fullDates.push(order.pickupDate); load(); }
+        if (res.soldOut) load();
+        show(res.error || 'Something went wrong. Please try again.', res.full || res.badDate || res.soldOut ? 'warn' : 'err');
       })
-      .catch(function(){
+      .catch(function () {
         show("We couldn't send your order. Please try again, or email titaservices.orders@gmail.com.", 'err');
         btn.disabled = false; btn.textContent = 'Place Order';
       });
