@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tita Services | Home-Cooked African Food in Indianapolis</title>
+<meta name="description" content="Tita Services: home-cooked African meals, snacks, party trays and more in Indianapolis. Order by text for pickup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#163d2e; --green-2:#1f5240; --gold:#e8a83a; --clay:#c7512b; --cream:#fbf4e6;
+    --paper:#fffaf0; --ink:#1e1a16; --muted:#6f655a; --line:#ecdcc0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.6}
+  a{color:inherit}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+
+  .demo-bar{background:var(--ink);color:var(--cream);text-align:center;font-size:13px;font-weight:600;padding:7px 12px}
+
+  /* geometric pattern strip */
+  .pattern{height:14px;background:
+    repeating-linear-gradient(90deg,var(--gold) 0 28px,var(--clay) 28px 42px,var(--green) 42px 70px,var(--cream) 70px 76px,var(--clay) 76px 90px,var(--gold) 90px 104px)}
+
+  nav{position:sticky;top:0;z-index:10;background:rgba(22,61,46,.97);color:var(--cream)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:"Playfair Display",serif;font-weight:800;font-size:25px;letter-spacing:.3px}
+  .logo span{color:var(--gold)}
+  .nav-links{display:flex;gap:22px;font-size:14px;opacity:.85}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--gold)}
+  @media(max-width:720px){.nav-links{display:none}}
+
+  .hero{background:
+      radial-gradient(circle at 90% 10%,rgba(232,168,58,.22),transparent 45%),
+      radial-gradient(circle at 0% 100%,rgba(199,81,43,.25),transparent 45%),
+      var(--green);
+    color:var(--cream);padding:84px 0 80px}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  @media(max-width:820px){.hero .wrap{grid-template-columns:1fr}}
+  .tag{display:inline-block;border:1px solid rgba(232,168,58,.6);color:var(--gold);font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;letter-spacing:.5px}
+  h1{font-family:"Playfair Display",serif;font-weight:800;font-size:clamp(42px,7vw,70px);line-height:1.04;margin:18px 0}
+  h1 em{color:var(--gold);font-style:italic}
+  .hero p{opacity:.85;font-size:18px;max-width:480px}
+  .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .btn{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px}
+  .btn-gold{background:var(--gold);color:var(--ink)}
+  .btn-gold:hover{filter:brightness(1.07)}
+  .btn-clay{background:var(--clay);color:#fff}
+  .btn-clay:hover{filter:brightness(1.08)}
+  .btn-ghost{border:1.5px solid rgba(251,244,230,.6);color:var(--cream)}
+  .btn-ghost:hover{background:rgba(251,244,230,.1)}
+  .btn-dark{border:1.5px solid var(--ink)}
+  .btn-dark:hover{background:var(--ink);color:var(--cream)}
+  .hero-img{aspect-ratio:1/1;border-radius:50%;background:
+      radial-gradient(circle at 35% 35%,#f1a24a,#d4642e 55%,#9e3b1c);
+    display:flex;align-items:center;justify-content:center;color:#fff3df;font-weight:600;font-size:14px;
+    border:10px solid var(--gold);box-shadow:0 24px 60px -18px rgba(0,0,0,.55);max-width:400px;margin:0 auto;width:100%}
+
+  section{padding:72px 0}
+  .alt{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  h2{font-family:"Playfair Display",serif;font-weight:800;font-size:40px;margin-bottom:6px}
+  .sub{color:var(--muted);margin-bottom:30px}
+
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+  .tab{border:1.5px solid var(--green);background:transparent;color:var(--green);padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+  .tab.active{background:var(--green);color:var(--cream)}
+  .panel{display:none}
+  .panel.show{display:grid}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:18px}
+  .item{background:var(--cream);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .item .img{aspect-ratio:4/3;background:#f2e2c6;display:flex;align-items:center;justify-content:center;color:#a7865a;font-size:13px}
+  .item .body{padding:18px 20px 22px}
+  .item h3{font-size:18px;margin-bottom:4px}
+  .item p{color:var(--muted);font-size:14px}
+  .row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px}
+  .price{font-weight:700;color:var(--clay)}
+  .badge{font-size:12px;background:#e3efe8;color:var(--green-2);padding:3px 10px;border-radius:999px;font-weight:700;white-space:nowrap}
+  .note{margin-top:16px;font-size:13px;color:var(--muted);font-style:italic}
+
+  .catering{background:var(--green);color:var(--cream);border-radius:26px;padding:44px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+  @media(max-width:780px){.catering{grid-template-columns:1fr;padding:30px}}
+  .catering h2{color:var(--cream)}
+  .catering p{opacity:.85}
+  .catering ul{list-style:none;margin-top:16px}
+  .catering li{padding:8px 0;border-bottom:1px solid rgba(251,244,230,.15)}
+  .catering li::before{content:"✦ ";color:var(--gold)}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:s}
+  .step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .step::before{counter-increment:s;content:counter(s);display:flex;align-items:center;justify-content:center;
+    width:40px;height:40px;border-radius:50%;background:var(--clay);color:#fff;font-weight:700;margin-bottom:14px}
+  .step h3{font-size:17px;margin-bottom:4px}
+  .step p{color:var(--muted);font-size:14px}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:720px){.two{grid-template-columns:1fr}}
+  .box{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .box h3{font-family:"Playfair Display",serif;font-size:22px;margin-bottom:10px}
+  .box p,.box li{color:var(--muted);font-size:15px}
+  .box ul{padding-left:18px}
+
+  details{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:700;list-style:none}
+  summary::after{content:"+";float:right;color:var(--clay);font-size:20px;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{color:var(--muted);margin-top:10px;font-size:15px}
+
+  .cta{text-align:center}
+  .cta .btns{justify-content:center}
+  .disclaimer{font-size:12.5px;color:var(--muted);max-width:660px;margin:26px auto 0;font-style:italic}
+
+  footer{background:var(--green);color:rgba(251,244,230,.75);padding:30px 0;text-align:center;font-size:13px}
+
+  /* ---------- online ordering ---------- */
+  .order-wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:start}
+  @media(max-width:860px){.order-wrap{grid-template-columns:1fr}}
+  .ocard{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:24px}
+  .ocat{font-family:"Playfair Display",serif;font-size:20px;margin:18px 0 8px}
+  .ocat:first-child{margin-top:0}
+  .oline{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:10px}
+  .oline span{font-weight:500}
+  .stepper{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .stepper button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--green);background:transparent;color:var(--green);font-size:18px;font-weight:700;cursor:pointer;line-height:1}
+  .stepper button:hover{background:var(--green);color:var(--cream)}
+  .stepper output{min-width:22px;text-align:center;font-weight:700}
+  .oline.on span{color:var(--clay)}
+  .summary{position:sticky;top:84px}
+  .summary h3{font-family:"Playfair Display",serif;font-size:24px;margin-bottom:10px}
+  #sumList{list-style:none;margin-bottom:16px;min-height:28px}
+  #sumList li{display:flex;justify-content:space-between;padding:5px 0;font-size:15px}
+  #sumList .empty{color:var(--muted);font-style:italic}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .field input,.field textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;background:#fff}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--green)}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  #placeBtn{width:100%;border:0;cursor:pointer;font-family:inherit;margin-top:6px}
+  #placeBtn:disabled{opacity:.5;cursor:not-allowed}
+  .omsg{margin-top:12px;font-size:14px;border-radius:10px;padding:10px 12px;display:none}
+  .omsg.err{display:block;background:#fbe4dc;color:#8e3417}
+  .omsg.warn{display:block;background:#fff1d1;color:#7a5410}
+  .closed-banner{display:none;background:var(--clay);color:#fff;border-radius:16px;padding:18px 22px;margin-bottom:20px;font-weight:600}
+  .closed-banner.show{display:block}
+  .order-closed .ocard:first-child{opacity:.45;pointer-events:none}
+  .done{text-align:center;padding:30px 10px}
+  .done .check{width:64px;height:64px;border-radius:50%;background:var(--green);color:var(--gold);font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .done h3{font-family:"Playfair Display",serif;font-size:26px}
+  .done p{color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Tita <span>Services</span></div>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#order-online">Order Online</a>
+      <a href="#catering">Party Trays</a>
+      <a href="#order">How to Order</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</nav>
+<div class="pattern" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="tag">HOME-COOKED CAMEROONIAN &amp; AFRICAN FOOD · INDIANAPOLIS</span>
+      <h1>African food,<br>made like <em>home.</em></h1>
+      <p>Ndole, eru, koki, suya, jollof and more, all cooked from scratch with real spices and family recipes.</p>
+      <div class="btns">
+        <a class="btn btn-gold" href="#order-online">Order Online</a>
+        <a class="btn btn-ghost" href="#menu">See the Menu</a>
+      </div>
+    </div>
+    <div class="hero-img">Your best food photo here</div>
+  </div>
+</header>
+
+<section id="menu" class="alt">
+  <div class="wrap">
+    <h2>Menu</h2>
+    <p class="sub">Cooked fresh to order. Please order at least a day ahead.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-panel="mains">Chicken, Meat &amp; Fish</button>
+      <button class="tab" data-panel="soups">Soups &amp; Stews</button>
+      <button class="tab" data-panel="sides">Rice &amp; Sides</button>
+    </div>
+
+    <div class="panel grid show" id="mains">
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Baked Chicken</h3><p>Seasoned chicken, oven-baked until tender.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Fried Chicken</h3><p>Crispy, well-seasoned fried chicken.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Spicy Chicken</h3><p>Chicken cooked in a hot, peppery sauce.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Saucy Chicken</h3><p>Chicken simmered in a rich, flavorful sauce.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Spicy Goat</h3><p>Tender goat meat with a spicy kick.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Ribs</h3><p>Seasoned, slow-cooked ribs.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Suya</h3><p>Spiced, grilled meat with a smoky, peppery rub.</p>
+        <div class="row"><span class="price">Price on confirmation</span><span class="badge">Street-food classic</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Roasted Fish</h3><p>Whole fish, seasoned and roasted.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Fried Fish Sautéed</h3><p>Fried fish finished in a sautéed sauce.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Saucy Fish</h3><p>Fish simmered in a rich, flavorful sauce.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+    </div>
+
+    <div class="panel grid" id="soups">
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Ndole</h3><p>Cameroon's famous bitterleaf and peanut stew.</p>
+        <div class="row"><span class="price">Price on confirmation</span><span class="badge">Signature</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Eru</h3><p>Eru leaves cooked down with greens, palm oil and meat or fish.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Achu Soup</h3><p>Yellow palm-oil soup, a Cameroonian favorite.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Pepper Soup</h3><p>Spicy, aromatic broth that warms you up.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+    </div>
+
+    <div class="panel grid" id="sides">
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Jollof Rice</h3><p>Smoky, tomato-based rice.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Fried Rice</h3><p>Vegetable fried rice.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Fried Plantain</h3><p>Sweet, golden fried plantain.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Boiled Yam</h3><p>Soft boiled yam, a perfect side for stews.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Koki Corn</h3><p>Steamed fresh-corn pudding with palm oil.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Koki Beans</h3><p>Steamed bean pudding with palm oil.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Fried Beans</h3><p>Beans fried with onions and seasoning.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Fried Spinach</h3><p>Spinach sautéed with onions and spices.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+      <div class="item"><div class="img">Photo</div><div class="body">
+        <h3>Mixed Vegetables</h3><p>Fresh mixed vegetables, lightly seasoned.</p>
+        <div class="row"><span class="price">Price on confirmation</span></div></div></div>
+    </div>
+
+    <p class="note">Prices depend on size and portion. Your total is confirmed when we reach out about your order.</p>
+  </div>
+</section>
+
+<section id="order-online">
+  <div class="wrap">
+    <h2>Order Online</h2>
+    <p class="sub">Pick your dishes and a pickup day. We'll text you to confirm your total, and you pay by Zelle.</p>
+    <div class="closed-banner" id="closedBanner"></div>
+    <div class="order-wrap" id="orderWrap">
+      <div class="ocard" id="orderItems"></div>
+      <div class="ocard summary" id="summaryCard">
+        <h3>Your Order</h3>
+        <ul id="sumList"><li class="empty">No items yet</li></ul>
+        <form id="orderForm" novalidate>
+          <div class="field"><label for="oName">Name</label><input id="oName" autocomplete="name" maxlength="80" required></div>
+          <div class="field"><label for="oPhone">Phone (for your confirmation text)</label><input id="oPhone" type="tel" autocomplete="tel" maxlength="30" required></div>
+          <div class="field"><label for="oDate">Pickup day</label><input id="oDate" type="date" required></div>
+          <div class="field"><label for="oNotes">Notes (spice level, allergies, sizes)</label><textarea id="oNotes" rows="3" maxlength="500"></textarea></div>
+          <div class="hp" aria-hidden="true"><label>Website<input id="oWebsite" tabindex="-1" autocomplete="off"></label></div>
+          <button class="btn btn-clay" id="placeBtn" type="submit">Place Order</button>
+          <div class="omsg" id="oMsg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="catering">
+  <div class="wrap">
+    <div class="catering">
+      <div>
+        <h2>Party Trays &amp; Events</h2>
+        <p>Birthdays, graduations, church events, family gatherings. We cook big trays so you can enjoy your party.</p>
+        <ul>
+          <li>Half and full trays of rice, stews and proteins</li>
+          <li>Ndole, eru, suya, roasted fish and more by the tray</li>
+          <li>Please order at least 1 week ahead</li>
+        </ul>
+      </div>
+      <div style="text-align:center">
+        <a class="btn btn-gold" href="mailto:titaservices.orders@gmail.com?subject=Party%20tray%20request">Ask About Your Event</a>
+        <p style="margin-top:12px;font-size:14px;opacity:.75">Email us the date, how many people, and what you'd like.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="order" class="alt">
+  <div class="wrap">
+    <h2>How to Order</h2>
+    <p class="sub">Simple. Order online in a minute.</p>
+    <div class="steps">
+      <div class="step"><h3>Send your order</h3><p>Use Order Online to pick your dishes and pickup day, at least a day ahead.</p></div>
+      <div class="step"><h3>Get your total</h3><p>We'll text you to confirm your order, your total, and your pickup time.</p></div>
+      <div class="step"><h3>Pick up &amp; enjoy</h3><p>Pay with Zelle. We'll send the details with your confirmation.</p></div>
+    </div>
+    <div class="two" style="margin-top:22px">
+      <div class="box">
+        <h3>Pickup Times</h3>
+        <p>Pickup times are confirmed when you order. Add your preferred time in the order notes.</p>
+      </div>
+      <div class="box">
+        <h3>Location</h3>
+        <p>Pickup in Indianapolis. The exact address is sent with your order confirmation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <p class="sub">Don't see your answer? Email titaservices.orders@gmail.com.</p>
+    <details><summary>Is the food spicy?</summary><p>Some dishes have a kick. Just let us know when you order and we can make it mild, medium or hot where possible.</p></details>
+    <details><summary>What about allergies?</summary><p>Our home kitchen uses peanuts, wheat, eggs, dairy, fish and shellfish. We can't guarantee anything is allergen-free, so please ask before ordering if you have an allergy.</p></details>
+    <details><summary>How do I store and reheat leftovers?</summary><p>Refrigerate within 2 hours and eat within 3 days. Reheat until steaming hot. Rice and stews also freeze well.</p></details>
+    <details><summary>Do you deliver?</summary><p>Email us and ask. Delivery depends on your location and the size of your order.</p></details>
+  </div>
+</section>
+
+<section class="cta alt">
+  <div class="wrap">
+    <h2>Hungry?</h2>
+    <p class="sub">Place your order today and pick it up fresh.</p>
+    <div class="btns">
+      <a class="btn btn-clay" href="#order-online">Order Online</a>
+      <a class="btn btn-dark" href="mailto:titaservices.orders@gmail.com">Email Us</a>
+    </div>
+    <p class="disclaimer">These products are home-produced and processed, and the production area has not been inspected by the state department of health.</p>
+  </div>
+</section>
+
+<div class="pattern" aria-hidden="true"></div>
+<footer>
+  © Tita Services · Indianapolis, IN · titaservices.orders@gmail.com<br>
+  Site by [YOUR BUSINESS NAME]
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+      document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show')});
+      t.classList.add('active');
+      document.getElementById(t.dataset.panel).classList.add('show');
+    });
+  });
+</script>
+
+<script>
+/* ===== Online ordering =====
+   Paste the Google Apps Script web app URL below. Leave it empty for demo mode
+   (the form works but nothing is sent). */
+const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzqwCxFwe18w_XhLdk0j0wOijnls1QgnwH03Xl5NcwoCXs2pSIXH_ZOkNdw7nekNEo9VA/exec';
+
+(function(){
+  const qty = {};
+  const itemsBox = document.getElementById('orderItems');
+  const sumList = document.getElementById('sumList');
+  const form = document.getElementById('orderForm');
+  const btn = document.getElementById('placeBtn');
+  const msg = document.getElementById('oMsg');
+  const dateIn = document.getElementById('oDate');
+  let status = { open: true, fullDates: [] };
+
+  // Build the order list from the menu tabs, so there's one menu to update.
+  document.querySelectorAll('.tab').forEach(function(tab){
+    const panel = document.getElementById(tab.dataset.panel);
+    const h = document.createElement('div'); h.className = 'ocat'; h.textContent = tab.textContent;
+    itemsBox.appendChild(h);
+    panel.querySelectorAll('.item h3').forEach(function(t){
+      const name = t.textContent.trim(); qty[name] = 0;
+      const line = document.createElement('div'); line.className = 'oline';
+      line.innerHTML = '<span></span><div class="stepper"><button type="button" aria-label="Remove one">−</button><output>0</output><button type="button" aria-label="Add one">+</button></div>';
+      line.querySelector('span').textContent = name;
+      const [minus, plus] = line.querySelectorAll('button'); const out = line.querySelector('output');
+      function set(n){ qty[name] = Math.max(0, Math.min(50, n)); out.textContent = qty[name]; line.classList.toggle('on', qty[name] > 0); render(); }
+      minus.onclick = function(){ set(qty[name] - 1); };
+      plus.onclick = function(){ set(qty[name] + 1); };
+      itemsBox.appendChild(line);
+    });
+  });
+
+  function chosen(){ return Object.keys(qty).filter(function(k){ return qty[k] > 0; }).map(function(k){ return { name: k, qty: qty[k] }; }); }
+  function render(){
+    const c = chosen(); sumList.innerHTML = '';
+    if (!c.length) { sumList.innerHTML = '<li class="empty">No items yet</li>'; return; }
+    c.forEach(function(it){ const li = document.createElement('li'); const a = document.createElement('span'); a.textContent = it.name; const b = document.createElement('b'); b.textContent = '× ' + it.qty; li.append(a, b); sumList.appendChild(li); });
+  }
+  function show(text, kind){ msg.className = 'omsg ' + kind; msg.textContent = text; }
+  function clearMsg(){ msg.className = 'omsg'; msg.textContent = ''; }
+
+  // Earliest pickup: tomorrow.
+  const t = new Date(); t.setDate(t.getDate() + 1);
+  const pad = function(n){ return String(n).padStart(2, '0'); };
+  dateIn.min = t.getFullYear() + '-' + pad(t.getMonth() + 1) + '-' + pad(t.getDate());
+
+  dateIn.addEventListener('change', function(){
+    if (status.fullDates.indexOf(dateIn.value) !== -1) show('That day is fully booked. Please choose another day.', 'warn'); else clearMsg();
+  });
+
+  function setClosed(text){
+    document.getElementById('closedBanner').textContent = text || "We're not taking orders right now. Please check back soon!";
+    document.getElementById('closedBanner').classList.add('show');
+    document.getElementById('orderWrap').classList.add('order-closed');
+    btn.disabled = true;
+  }
+
+  // Ask the backend whether orders are open.
+  if (ORDER_ENDPOINT) {
+    fetch(ORDER_ENDPOINT).then(function(r){ return r.json(); }).then(function(s){
+      status = { open: !!s.open, fullDates: s.fullDates || [] };
+      if (!status.open) setClosed(s.message);
+    }).catch(function(){});
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault(); clearMsg();
+    const order = {
+      name: document.getElementById('oName').value.trim(),
+      phone: document.getElementById('oPhone').value.trim(),
+      pickupDate: dateIn.value,
+      notes: document.getElementById('oNotes').value.trim(),
+      website: document.getElementById('oWebsite').value,
+      items: chosen()
+    };
+    if (!order.items.length) return show('Please add at least one item.', 'err');
+    if (!order.name || !order.phone) return show('Please enter your name and phone number.', 'err');
+    if (!order.pickupDate) return show('Please choose a pickup day.', 'err');
+    if (order.pickupDate < dateIn.min) return show('Pickup needs to be tomorrow or later.', 'err');
+    if (status.fullDates.indexOf(order.pickupDate) !== -1) return show('That day is fully booked. Please choose another day.', 'warn');
+
+    btn.disabled = true; btn.textContent = 'Sending…';
+    const done = function(id){
+      document.getElementById('summaryCard').innerHTML =
+        '<div class="done"><div class="check">✓</div><h3>Order received!</h3><p>Order <b></b>. We\'ll text you soon to confirm your total and pickup time.</p></div>';
+      document.querySelector('.done b').textContent = id;
+      document.getElementById('summaryCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    if (!ORDER_ENDPOINT) { setTimeout(function(){ done('DEMO (not sent)'); }, 600); return; }
+
+    fetch(ORDER_ENDPOINT, { method: 'POST', body: JSON.stringify(order) })
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if (res.ok) return done(res.orderId);
+        if (res.closed) setClosed(res.error);
+        if (res.full) status.fullDates.push(order.pickupDate);
+        show(res.error || 'Something went wrong. Please try again.', res.full ? 'warn' : 'err');
+        btn.disabled = !!res.closed; btn.textContent = 'Place Order';
+      })
+      .catch(function(){
+        show("We couldn't send your order. Please try again, or email titaservices.orders@gmail.com.", 'err');
+        btn.disabled = false; btn.textContent = 'Place Order';
+      });
+  });
+})();
+</script>
+</body>
+</html>
